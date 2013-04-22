@@ -49,24 +49,8 @@ namespace RNEmergency.Data
                         tblExists = rdr.Read();
                     }
                 }
-                if (!tblExists)
+                if (tblExists)
                 {
-                    using (var cmd2 = new NpgsqlCommand("create table rn_version (ver integer);", conn))
-                    {
-                        cmd2.ExecuteNonQuery();
-                    }
-                    using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (1)", conn))
-                    {
-                        cmd3.ExecuteScalar();
-                    }
-                    using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), daum_id varchar(100), hospital varchar(200), aff varchar(200));", conn))
-                    {
-                        cmd4.ExecuteNonQuery();
-                    }
-                }
-                else
-                {
-                    var updateTable = true;
                     using (var cmd2 = new NpgsqlCommand("select ver from rn_version", conn))
                     {
                         using (var rdr = cmd2.ExecuteReader())
@@ -74,11 +58,26 @@ namespace RNEmergency.Data
                             if (rdr.Read())
                             {
                                 var curVersion = rdr.GetInt32(0);
-                                if (curVersion == 1) { updateTable = false; }
+                                if (curVersion != 3)
+                                {
+                                    tblExists = false;
+                                }
                             }
                         }
                     }
                 }
+                if (!tblExists) { CreateTables(conn); }
+            }
+        }
+
+        public static void CreateTables(NpgsqlConnection conn)
+        {
+            using (var cmd1 = new NpgsqlCommand("drop table rn_version;drop table rn_results;", conn)) { cmd1.ExecuteNonQuery(); }
+            using (var cmd2 = new NpgsqlCommand("create table rn_version (ver integer);", conn)) { cmd2.ExecuteNonQuery(); }
+            using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (3)", conn)) { cmd3.ExecuteScalar(); }
+            using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), PRIMARY KEY(email));", conn))
+            {
+                cmd4.ExecuteNonQuery();
             }
         }
 
