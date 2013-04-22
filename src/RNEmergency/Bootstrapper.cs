@@ -14,7 +14,7 @@ namespace RNEmergency
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-#if RELEASE
+#if !DEBUG
             pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx => ctx.Request.Url.IsSecure ? null : new RedirectResponse("https://" + ctx.Request.Url.HostName + GetPort(ctx.Request.Url.Port)));
 #endif
         }
