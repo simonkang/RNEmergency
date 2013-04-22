@@ -14,12 +14,7 @@ namespace RNEmergency.Data
 
     public class RNRepository : IRNRepository
     {
-        static string connStr;
-
-        static RNRepository()
-        {
-            connStr = GetConnStr();
-        }
+        static Lazy<string> connStr = new Lazy<string>(() => GetConnStr());
 
         public static string GetConnStr()
         {
@@ -41,7 +36,7 @@ namespace RNEmergency.Data
 
         public bool VerifyDatabase()
         {
-            using (var conn = new NpgsqlConnection(connStr))
+            using (var conn = new NpgsqlConnection(connStr.Value))
             {
                 conn.Open();
             }
