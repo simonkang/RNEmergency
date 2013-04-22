@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D6C95F5C-7815-4169-93B8-04D1E80C55DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RNEmergency", "src\RNEmergency\RNEmergency.csproj", "{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E8E41608-D2BC-482F-88DF-858E3CDC9B88}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0AA2519F-0EEA-4FCE-B8CB-0A36A68A4B2E} = {D6C95F5C-7815-4169-93B8-04D1E80C55DC}
+	EndGlobalSection
+EndGlobal
