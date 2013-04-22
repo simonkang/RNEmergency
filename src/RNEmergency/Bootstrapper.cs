@@ -15,15 +15,8 @@ namespace RNEmergency
         {
             base.ApplicationStartup(container, pipelines);
 #if !DEBUG
-            pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx => ctx.Request.Url.IsSecure ? null : new RedirectResponse("https://" + ctx.Request.Url.HostName + GetPort(ctx.Request.Url.Port)));
+            pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx => ctx.Request.Url.IsSecure ? null : new RedirectResponse("https://" + ctx.Request.Url.HostName));
 #endif
-        }
-
-        private static string GetPort(int? port)
-        {
-            return (!port.HasValue) ?
-                string.Empty :
-                string.Concat(":", port.Value);
         }
     }
 }
