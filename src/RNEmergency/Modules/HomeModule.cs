@@ -15,8 +15,15 @@ namespace RNEmergency.Modules
             Get["/"] = _ => View["index.sshtml"];
             Get["/Test"] = _ => 
                 {
-                    var dbTest = repo.VerifyDatabase();
-                    return View["index.sshtml", new PetitionResult { Hospital = dbTest.ToString() }];
+                    try
+                    {
+                        var dbTest = repo.VerifyDatabase();
+                        return "Good";
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.ToString();
+                    }
                 };
         }
     }
