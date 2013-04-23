@@ -7,7 +7,10 @@ namespace RNEmergency.Model
 {
     public class PetitionResult
     {
-        public string UserId { get; set; }
-        public string Hospital { get; set; }
+        public string email { get; set; }
+        public string name { get; set; }
+        public string phone_no { get; set; }
+        public string daum_id { get; set; }
+        public string work_place { get; set; }
     }
 }
