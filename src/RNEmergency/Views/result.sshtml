@@ -1,6 +1,22 @@
 ﻿@Master['master']
 
+@Section['Scripts']
+<script type="text/javascript">
+$(document).ready(function() {
+	var can, ctx
+	can = $('#signCanvas')[0];
+	ctx = can.getContext('2d');
+	var imageObj = new Image();
+	imageObj.onload = function() {
+		ctx.drawImage(this, 0, 0);
+	};
+	imageObj.src = $('#sign_image_dataurl').val();
+});
+</script>
+@EndSection
+
 @Section['Content']
+<input type="hidden" id="sign_image_dataurl" value="@!Model.sign_image_dataurl" />
 <div class="hero-unit">
 	<h1>RN Emergency</h1>
 	<p></p>
@@ -15,6 +31,7 @@
 				<tr><th>소속</th><td>@!Model.work_place</td></tr>
 				<tr><th>휴대폰 번호</th><td>@!Model.phone_no</td></tr>
 				<tr><th>이매일 주소</th><td>@!Model.email</td></tr>
+				<tr><th>서명</th><td><canvas id="signCanvas" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas></td>
 				<tr><td></td><td>@!Model.insert_dt_formatted</td></tr>
 			</tbody>
 		</table>
