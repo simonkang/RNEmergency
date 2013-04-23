@@ -15,7 +15,7 @@ namespace RNEmergency.Data
     public class RNRepository : IRNRepository
     {
         static Lazy<string> connStr = new Lazy<string>(() => GetConnStr());
-        static int curDBVersion = 5;
+        static int curDBVersion = 6;
 
         public static string GetConnStr()
         {
@@ -98,7 +98,7 @@ namespace RNEmergency.Data
             using (var cmd1 = new NpgsqlCommand("drop table rn_version;", conn)) { cmd1.ExecuteNonQuery(); }
             using (var cmd2 = new NpgsqlCommand("create table rn_version (ver integer);", conn)) { cmd2.ExecuteNonQuery(); }
             using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (" + curDBVersion.ToString() + ")", conn)) { cmd3.ExecuteScalar(); }
-            using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), sign_image text, PRIMARY KEY(email));", conn))
+            using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), client_ip varchar(50), sign_image text, PRIMARY KEY(email));", conn))
             {
                 cmd4.ExecuteNonQuery();
             }

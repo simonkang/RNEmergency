@@ -12,6 +12,7 @@ namespace RNEmergency.Model
         public string phone_no { get; set; }
         public string daum_id { get; set; }
         public string work_place { get; set; }
+        public string client_ip { get; set; }
         public string sign_image { get; set; }
 
         public byte[] sign_image_bytes
