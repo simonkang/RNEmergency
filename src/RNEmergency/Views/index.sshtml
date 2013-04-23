@@ -1,24 +1,28 @@
 ﻿@Master['master']
 
 @Section['Content']
-<div class="page-header">
-<h1>Hello World</h1>
+<div class="hero-unit">
+	<h1>RN Emergency</h1>
+	<p></p>
 </div>
 <div class="row-fluid">
-	<div class="span3">Hello World</div>
-	<div class="span9">
-	<form>
-		<fieldset>
-			<legend>Legend</legend>
-			<label>Label name</label>
-			<input type="text" placeholder="Type something…">
-			<span class="help-block">Example block-level help text here.</span>
-			<label class="checkbox">
-				<input type="checkbox"> Check me out
-			</label>
-			<button type="submit" class="btn">Submit</button>
-		</fieldset>
-	</form>
+	<div class="span3">&nbsp;</div>
+	<div class="span6">
+		<form action="@Path['~/']" method="POST" enctype="multipart/form-data">
+			<fieldset>
+				<legend>Legend</legend>
+				<label>이름</label>
+				<input type="text" name="name" placeholder="이름">
+				<label>소속</label>
+				<input type="text" name="work_place" placeholder="소속 (혹은 주소)">
+				<label>휴대폰 번호</label>
+				<input type="text" name="phone_no" placeholder="휴대폰 번호">
+				<label>이매일 주소</label>
+				<input type="text" name="email" placeholder="이매일 주소"><br/>
+				<button type="submit" class="btn btn-large btn-primary">Submit</button>
+			</fieldset>
+		</form>
 	</div>
+	<div class="span3">&nbsp;</div>
 </div>
 @EndSection

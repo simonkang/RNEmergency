@@ -4,12 +4,14 @@ using System.Configuration;
 using System.Linq;
 using System.Web;
 using Npgsql;
+using RNEmergency.Model;
 
 namespace RNEmergency.Data
 {
     public interface IRNRepository
     {
         bool VerifyDatabase();
+        string InsertPetitionResult(PetitionResult pr);
     }
 
     public class RNRepository : IRNRepository
@@ -111,6 +113,38 @@ namespace RNEmergency.Data
                 conn.Open();
             }
             return true;
+        }
+
+        public string InsertPetitionResult(PetitionResult pr)
+        {
+            var ret = "";
+            using (var conn = new NpgsqlConnection(connStr.Value))
+            {
+                conn.Open();
+                using (var cmd = new NpgsqlCommand("insert into rn_results (email, name, phone_no, daum_id, work_place, client_ip, sign_image) values (:email, :name, :phone_no, :daum_id, :work_place, :client_ip, :sign_image)", conn))
+                {
+                    cmd.Parameters.Add(new NpgsqlParameter("email", pr.email));
+                    cmd.Parameters.Add(new NpgsqlParameter("name", pr.name));
+                    cmd.Parameters.Add(new NpgsqlParameter("phone_no", pr.phone_no));
+                    cmd.Parameters.Add(new NpgsqlParameter("daum_id", ""));
+                    cmd.Parameters.Add(new NpgsqlParameter("work_place", pr.work_place));
+                    cmd.Parameters.Add(new NpgsqlParameter("client_ip", pr.client_ip));
+                    cmd.Parameters.Add(new NpgsqlParameter("sign_image", pr.sign_image));
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (NpgsqlException ex)
+                    {
+                        if (ex.Code == "23505")
+                        {
+                            ret = "email already exists";
+                        }
+                        else { throw; }
+                    }
+                }
+            }
+            return ret;
         }
     }
 }

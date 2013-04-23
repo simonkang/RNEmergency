@@ -1,0 +1,23 @@
+﻿@Master['master']
+
+@Section['Content']
+<div class="hero-unit">
+	<h1>RN Emergency</h1>
+	<p></p>
+</div>
+<div class="row-fluid">
+	<div class="span3">&nbsp;</div>
+	<div class="span6">
+		<table class="table table-bordered table-hover">
+			<tbody>
+			@If.hasErr;<tr><td colspan="2"><p class="text-error">@!Model.err_msg</td></tr>@EndIf
+				<tr><th width="130">이름</th><td>@!Model.name</td></tr>
+				<tr><th>소속</th><td>@!Model.work_place</td></tr>
+				<tr><th>휴대폰 번호</th><td>@!Model.phone_no</td></tr>
+				<tr><th>이매일 주소</th><td>@!Model.email</td></tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="span3">&nbsp;</div>
+</div>
+@EndSection

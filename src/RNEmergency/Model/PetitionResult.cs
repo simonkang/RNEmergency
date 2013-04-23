@@ -14,6 +14,8 @@ namespace RNEmergency.Model
         public string work_place { get; set; }
         public string client_ip { get; set; }
         public string sign_image { get; set; }
+        public string err_msg { get; set; }
+        public bool hasErr { get { return !string.IsNullOrWhiteSpace(err_msg); } }
 
         public byte[] sign_image_bytes
         {
