@@ -15,9 +15,25 @@ namespace RNEmergency
         protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines)
         {
             base.ApplicationStartup(container, pipelines);
-//#if !DEBUG
-//            pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx => ctx.Request.Url.IsSecure ? null : new RedirectResponse("https://" + ctx.Request.Url.HostName));
-//#endif
+            pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx =>
+                {
+                    if (!ctx.Request.Url.HostName.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var proto = ctx.Request.Headers["X-Forwarded-Proto"].FirstOrDefault();
+                        if (proto == null)
+                        {
+                            if (!ctx.Request.Url.IsSecure)
+                            {
+                                return new RedirectResponse("https://" + ctx.Request.Url.HostName);
+                            }
+                        }
+                        else if (!proto.Equals("https", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return new RedirectResponse("https://" + ctx.Request.Url.HostName);
+                        }
+                    }
+                    return null;
+                });
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)
