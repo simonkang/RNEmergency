@@ -15,6 +15,7 @@ namespace RNEmergency.Data
     public class RNRepository : IRNRepository
     {
         static Lazy<string> connStr = new Lazy<string>(() => GetConnStr());
+        static int curDBVersion = 4;
 
         public static string GetConnStr()
         {
@@ -58,7 +59,7 @@ namespace RNEmergency.Data
                             if (rdr.Read())
                             {
                                 var curVersion = rdr.GetInt32(0);
-                                if (curVersion != 3)
+                                if (curVersion != curDBVersion)
                                 {
                                     tblExists = false;
                                 }
@@ -72,9 +73,19 @@ namespace RNEmergency.Data
 
         public static void CreateTables(NpgsqlConnection conn)
         {
-            using (var cmd1 = new NpgsqlCommand("drop table rn_version;drop table rn_results;", conn)) { cmd1.ExecuteNonQuery(); }
+            using (var cmdRename1 = new NpgsqlCommand("select table_name from information_schema.tables where table_name = 'rn_results'", conn))
+            {
+                var tblExists = false;
+                using (var rdr1 = cmdRename1.ExecuteReader()) { tblExists = rdr1.Read(); }
+                cmdRename1.Dispose();
+                if (tblExists)
+                {
+                    using (var cmdRename2 = new NpgsqlCommand("alter table rn_results rename to rn_results_old" + (curDBVersion - 1).ToString(), conn)) { cmdRename2.ExecuteNonQuery(); }
+                }
+            }
+            using (var cmd1 = new NpgsqlCommand("drop table rn_version;", conn)) { cmd1.ExecuteNonQuery(); }
             using (var cmd2 = new NpgsqlCommand("create table rn_version (ver integer);", conn)) { cmd2.ExecuteNonQuery(); }
-            using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (3)", conn)) { cmd3.ExecuteScalar(); }
+            using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (" + curDBVersion.ToString() + ")", conn)) { cmd3.ExecuteScalar(); }
             using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), PRIMARY KEY(email));", conn))
             {
                 cmd4.ExecuteNonQuery();
