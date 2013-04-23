@@ -12,5 +12,19 @@ namespace RNEmergency.Model
         public string phone_no { get; set; }
         public string daum_id { get; set; }
         public string work_place { get; set; }
+        public string sign_image { get; set; }
+
+        public byte[] sign_image_bytes
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(sign_image)) { return new byte[0]; }
+                return Convert.FromBase64String(sign_image);
+            }
+            set
+            {
+                sign_image = Convert.ToBase64String(value);
+            }
+        }
     }
 }
