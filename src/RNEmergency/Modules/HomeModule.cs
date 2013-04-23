@@ -17,7 +17,7 @@ namespace RNEmergency.Modules
                 {
                     try
                     {
-                        var clientIP = Context.Request.Headers["HTTP_X_FORWARDED_FOR"].FirstOrDefault() ?? "";
+                        var clientIP =  System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? "";
                         var dbTest = repo.VerifyDatabase();
                         return "Good : " + Context.Request.UserHostAddress + " : " + clientIP;
                     }
