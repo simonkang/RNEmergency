@@ -18,7 +18,7 @@ namespace RNEmergency.Modules
                     try
                     {
                         var dbTest = repo.VerifyDatabase();
-                        return "Good";
+                        return "Good : " + Context.Request.UserHostAddress;
                     }
                     catch (Exception ex)
                     {
