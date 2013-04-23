@@ -18,7 +18,7 @@ namespace RNEmergency.Modules
                     try
                     {
                         var dbTest = repo.VerifyDatabase();
-                        return this.Context.Request.Url.ToString();
+                        return HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
                     }
                     catch (Exception ex)
                     {
