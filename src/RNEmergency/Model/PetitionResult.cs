@@ -14,6 +14,8 @@ namespace RNEmergency.Model
         public string work_place { get; set; }
         public string client_ip { get; set; }
         public string sign_image { get; set; }
+        public DateTime insert_dt { get; set; }
+        public string insert_dt_formatted { get { return insert_dt.ToString("yyyy-MM-dd HH:mm:ss"); } }
         public string err_msg { get; set; }
         public bool hasErr { get { return !string.IsNullOrWhiteSpace(err_msg); } }
 

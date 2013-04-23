@@ -11,6 +11,8 @@ namespace RNEmergency.Modules
 {
     public class HomeModule : NancyModule
     {
+        static TimeZoneInfo koreaTZI = TimeZoneInfo.FindSystemTimeZoneById("Korea Standard Time");
+
         public HomeModule(IRNRepository repo)
         {
             Get["/"] = _ => View["index.sshtml"];
@@ -31,6 +33,7 @@ namespace RNEmergency.Modules
                 {
                     var pr = this.Bind<PetitionResult>();
                     pr.client_ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"] ?? Context.Request.UserHostAddress;
+                    pr.insert_dt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, koreaTZI);
                     pr.err_msg = repo.InsertPetitionResult(pr);
                     return View["result.sshtml", pr];
                 };

@@ -17,7 +17,7 @@ namespace RNEmergency.Data
     public class RNRepository : IRNRepository
     {
         static Lazy<string> connStr = new Lazy<string>(() => GetConnStr());
-        static int curDBVersion = 6;
+        static int curDBVersion = 7;
 
         public static string GetConnStr()
         {
@@ -100,7 +100,7 @@ namespace RNEmergency.Data
             using (var cmd1 = new NpgsqlCommand("drop table rn_version;", conn)) { cmd1.ExecuteNonQuery(); }
             using (var cmd2 = new NpgsqlCommand("create table rn_version (ver integer);", conn)) { cmd2.ExecuteNonQuery(); }
             using (var cmd3 = new NpgsqlCommand("insert into rn_version (ver) values (" + curDBVersion.ToString() + ")", conn)) { cmd3.ExecuteScalar(); }
-            using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), client_ip varchar(50), sign_image text, PRIMARY KEY(email));", conn))
+            using (var cmd4 = new NpgsqlCommand("create table rn_results (email varchar(100), name varchar(100), phone_no varchar(100), daum_id varchar(100), work_place varchar(200), client_ip varchar(50), sign_image text, insert_dt timestamp, PRIMARY KEY(email));", conn))
             {
                 cmd4.ExecuteNonQuery();
             }
@@ -121,7 +121,7 @@ namespace RNEmergency.Data
             using (var conn = new NpgsqlConnection(connStr.Value))
             {
                 conn.Open();
-                using (var cmd = new NpgsqlCommand("insert into rn_results (email, name, phone_no, daum_id, work_place, client_ip, sign_image) values (:email, :name, :phone_no, :daum_id, :work_place, :client_ip, :sign_image)", conn))
+                using (var cmd = new NpgsqlCommand("insert into rn_results (email, name, phone_no, daum_id, work_place, client_ip, sign_image, insert_dt) values (:email, :name, :phone_no, :daum_id, :work_place, :client_ip, :sign_image, :insert_dt)", conn))
                 {
                     cmd.Parameters.Add(new NpgsqlParameter("email", pr.email));
                     cmd.Parameters.Add(new NpgsqlParameter("name", pr.name));
@@ -130,6 +130,7 @@ namespace RNEmergency.Data
                     cmd.Parameters.Add(new NpgsqlParameter("work_place", pr.work_place));
                     cmd.Parameters.Add(new NpgsqlParameter("client_ip", pr.client_ip));
                     cmd.Parameters.Add(new NpgsqlParameter("sign_image", pr.sign_image));
+                    cmd.Parameters.Add(new NpgsqlParameter("insert_dt", pr.insert_dt));
                     try
                     {
                         cmd.ExecuteNonQuery();
