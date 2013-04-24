@@ -2,8 +2,8 @@
 
 @Section['Scripts']
 <script type="text/javascript">
-$(document).ready(function() {
-	var can, ctx
+var rnns = {}
+rnns.init = function() {
 	can = $('#signCanvas')[0];
 	ctx = can.getContext('2d');
 	var imageObj = new Image();
@@ -11,6 +11,14 @@ $(document).ready(function() {
 		ctx.drawImage(this, 0, 0);
 	};
 	imageObj.src = $('#sign_image_dataurl').val();
+};
+
+$(document).ready(function() {
+	Modernizr.load({
+		test:Modernizr.canvas,
+		nope:'@Path['~/Scripts/flashcanvas.js']',
+		complete:rnns.init()
+	});
 });
 </script>
 @EndSection

@@ -7,6 +7,7 @@
 <title>RN Emergency</title>
 <script src="@Path['~/Scripts/jquery-1.9.1.min.js']"></script>
 <script src="@Path['~/Scripts/bootstrap.min.js']"></script>
+<script src="@Path['~/Scripts/modernizr.canvas.js']"></script>
 @Section['Scripts']
 </head>
 <body>

@@ -14,7 +14,7 @@ rnns.ev_cv = function(ev) {
 	}
 };
 
-$(document).ready(function() {
+rnns.init = function() {
 	rnns.can = $('#signCanvas')[0];
 	rnns.ctx = rnns.can.getContext('2d');
 
@@ -51,6 +51,14 @@ $(document).ready(function() {
 	$('#submitp').click(function() {
 		$('#sign_image_dataurl').val(rnns.can.toDataURL("image/png"));
 		$('#formp').submit();
+	});
+};
+
+$(document).ready(function() {
+	Modernizr.load({
+		test:Modernizr.canvas,
+		nope:'@Path['~/Scripts/flashcanvas.js']',
+		complete:rnns.init()
 	});
 });
 </script>
