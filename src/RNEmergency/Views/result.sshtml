@@ -2,6 +2,11 @@
 
 @Section['Scripts']
 <script type="text/javascript">
+Modernizr.load({
+	test:Modernizr.canvas,
+	nope:'@Path['~/Scripts/flashcanvas.js']'
+});
+
 var rnns = {}
 rnns.init = function() {
 	can = $('#signCanvas')[0];
@@ -14,11 +19,7 @@ rnns.init = function() {
 };
 
 $(document).ready(function() {
-	Modernizr.load({
-		test:Modernizr.canvas,
-		nope:'@Path['~/Scripts/flashcanvas.js']',
-		complete:rnns.init()
-	});
+	rnns.init();
 });
 </script>
 @EndSection
