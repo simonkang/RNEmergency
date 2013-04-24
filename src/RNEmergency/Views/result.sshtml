@@ -9,7 +9,7 @@ Modernizr.load({
 
 var rnns = {}
 rnns.init = function() {
-	can = $('#signCanvas')[0];
+	can = document.getElementById('signCanvas');
 	ctx = can.getContext('2d');
 	var imageObj = new Image();
 	imageObj.onload = function() {

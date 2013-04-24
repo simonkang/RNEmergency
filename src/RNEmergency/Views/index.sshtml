@@ -20,7 +20,7 @@ rnns.ev_cv = function(ev) {
 };
 
 rnns.init = function() {
-	rnns.can = $('#signCanvas')[0];
+	rnns.can = document.getElementById('signCanvas');
 	rnns.ctx = rnns.can.getContext('2d');
 
 	$('#signCanvas').mousedown(function(ev) {
