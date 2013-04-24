@@ -39,8 +39,8 @@ namespace RNEmergency
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
             base.ConfigureConventions(nancyConventions);
-            Conventions.StaticContentsConventions.Add(
-                StaticContentConventionBuilder.AddDirectory("Scripts", @"Scripts", ".js"));
+            //Conventions.StaticContentsConventions.Add(
+            //    StaticContentConventionBuilder.AddDirectory("Scripts", @"Scripts", ".js"));
         }
     }
 }
