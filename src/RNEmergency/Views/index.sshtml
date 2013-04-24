@@ -2,6 +2,9 @@
 
 @Section['Scripts']
 <script type="text/javascript">
+window.FlashCanvasOptions = {
+    swfPath: "@Path['~/Scripts/']"
+};
 Modernizr.load({
 	test:Modernizr.canvas,
 	nope:'@Path['~/Scripts/flashcanvas.js']'
