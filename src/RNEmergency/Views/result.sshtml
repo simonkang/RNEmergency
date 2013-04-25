@@ -6,24 +6,45 @@
 window.FlashCanvasOptions = {
     swfPath: "@Path['~/Scripts/']"
 };
-Modernizr.load({
-	test:Modernizr.canvas,
-	nope:'@Path['~/Scripts/flashcanvas.js']'
-});
-
 var rnns = {}
-rnns.init = function() {
+rnns.i1 = false;
+rnns.i2 = false;
+rnns.onload = function() {
 	can = document.getElementById('signCanvas');
 	ctx = can.getContext('2d');
-	var imageObj = new Image();
-	imageObj.onload = function() {
-		ctx.drawImage(this, 0, 0);
-	};
-	imageObj.src = $('#sign_image_dataurl').val();
+	ctx.drawImage(rnns.imageObj, 0, 0);
 };
 
+rnns.finishInit = function() {
+	if (rnns.i1 && rnns.i2) {
+		if (typeof rnns.imageObj == "undefined") {
+			rnns.imageObj = new Image();
+			rnns.imageObj.onload = rnns.onload;
+			rnns.imageObj.src = document.getElementById('sign_image_dataurl').value;
+		} else {
+			rnns.imageObj.src = document.getElementById('sign_image_dataurl').value;
+			var fakeImg = new Image();
+			fakeImg.src = rnns.imageObj.src;
+			fakeImg.onload = rnns.onload;
+		}
+	}
+};
+
+Modernizr.load({
+	test:Modernizr.canvas,
+	nope:'@Path['~/Scripts/flashcanvas.js']',
+	complete: function () {
+		if (typeof FlashCanvas != "undefined") {
+			rnns.imageObj = {};
+		}
+		rnns.i1 = true;
+		rnns.finishInit();
+	}
+});
+
 $(document).ready(function() {
-	rnns.init();
+	rnns.i2 = true;
+	rnns.finishInit();
 });
 </script>
 @EndSection

@@ -4,14 +4,8 @@
 <script type="text/javascript">
 
 var rnns = {};
-rnns.initialized = false;
-rnns.runInit = function(){
-	if (!rnns.initialized) {
-		rnns.initialized = true;
-		rnns.can = document.getElementById('signCanvas');
-		rnns.ctx = rnns.can.getContext('2d');
-	}
-};
+rnns.i1 = false;
+rnns.i2 = false;
 rnns.started = false;
 rnns.ev_cv = function(ev) {
 	if (ev.layerX || ev.layerX == 0) {
@@ -23,17 +17,8 @@ rnns.ev_cv = function(ev) {
 	}
 };
 
-window.FlashCanvasOptions = {
-    swfPath: "@Path['~/Scripts/']"
-};
-Modernizr.load({
-	test:Modernizr.canvas,
-	nope:'@Path['~/Scripts/flashcanvas.js']'
-});
-
 rnns.init = function() {
 	$('#signCanvas').mousedown(function(ev) {
-		rnns.runInit();
 		rnns.ev_cv(ev);
 		rnns.ctx.beginPath();
 		rnns.ctx.moveTo(rnns.x, rnns.y);
@@ -42,7 +27,6 @@ rnns.init = function() {
 
 	$('#signCanvas').mousemove(function(ev) {
 		if (rnns.started) {
-			rnns.runInit();
 			rnns.ev_cv(ev);
 			rnns.ctx.lineTo(rnns.x, rnns.y);
 			rnns.ctx.stroke();
@@ -51,7 +35,6 @@ rnns.init = function() {
 
 	$('#signCanvas').mouseup(function(ev) {
 		if (rnns.started) {
-			rnns.runInit();
 			rnns.ev_cv(ev);
 			rnns.ctx.lineTo(rnns.x, rnns.y);
 			rnns.ctx.stroke();
@@ -66,14 +49,31 @@ rnns.init = function() {
 	});
 
 	$('#submitp').click(function() {
-		rnns.runInit();
 		$('#sign_image_dataurl').val(rnns.can.toDataURL("image/png"));
 		$('#formp').submit();
 	});
 };
 
+rnns.runInit = function(){
+	if (rnns.i1 && rnns.i2) {
+		rnns.can = document.getElementById('signCanvas');
+		rnns.ctx = rnns.can.getContext('2d');
+		rnns.init();
+	}
+};
+
+window.FlashCanvasOptions = {
+    swfPath: "@Path['~/Scripts/']"
+};
+Modernizr.load({
+	test:Modernizr.canvas,
+	nope:'@Path['~/Scripts/flashcanvas.js']',
+	complete: function () { rnns.i1 = true; rnns.runInit(); }
+});
+
 $(document).ready(function() {
-	rnns.init();
+	rnns.i2 = true;
+	rnns.runInit();
 });
 </script>
 @EndSection
