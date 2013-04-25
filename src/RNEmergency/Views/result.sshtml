@@ -62,7 +62,7 @@ $(document).ready(function() {
 				<tr><th width="130">이름</th><td>@!Model.name</td></tr>
 				<tr><th>소속</th><td>@!Model.work_place</td></tr>
 				<tr><th>휴대폰 번호</th><td>@!Model.phone_no</td></tr>
-				<tr><th>이매일 주소</th><td>@!Model.email</td></tr>
+				<tr><th>email 주소</th><td>@!Model.email</td></tr>
 				<tr><th>서명</th><td><canvas id="signCanvas" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas></td>
 				<tr><td></td><td>@!Model.insert_dt_formatted</td></tr>
 			</tbody>

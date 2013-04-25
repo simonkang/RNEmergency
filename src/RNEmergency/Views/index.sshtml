@@ -1,6 +1,22 @@
 ﻿@Master['master']
 
 @Section['Scripts']
+<style type="text/css">
+/* Main marketing message and sign up button */
+.jumbotron {
+	margin: 20px 0;
+	text-align: center;
+}
+.jumbotron h1 {
+	font-size: 80px;
+	line-height: 1;
+}
+.jumbotron .lead {
+	font-size: 24px;
+	line-height: 1.25;
+}
+</style>
+
 <script type="text/javascript">
 
 var rnns = {};
@@ -42,6 +58,10 @@ rnns.init = function() {
 		}
 	});
 
+	$('#clearp').click(function() {
+		rnns.ctx.clearRect(0, 0, 300, 100);
+	});
+
 	$(document).mouseup(function(ev) {
 		if (rnns.started) {
 			rnns.started = false;
@@ -79,30 +99,117 @@ $(document).ready(function() {
 @EndSection
 
 @Section['Content']
-<div class="hero-unit">
+<div class="jumbotron">
 	<h1>RN Emergency</h1>
+	<p class="lead">간호인력개편안 철회하라!</p>
+	<hr>
 </div>
-<div class="row-fluid">
-	<div class="span3">&nbsp;</div>
-	<div class="span6">
-		<form action="@Path['~/Petition']" method="POST" id="formp">
-			<fieldset>
-				<legend></legend>
-				<label>이름</label>
-				<input type="text" name="name" placeholder="이름">
-				<label>소속</label>
-				<input type="text" name="work_place" placeholder="소속 (혹은 주소)">
-				<label>휴대폰 번호</label>
-				<input type="text" name="phone_no" placeholder="000-0000-0000">
-				<label>이매일 주소</label>
-				<input type="text" name="email" placeholder="id@email.com"><br/>
-				<label>서명</label>
-				<canvas id="signCanvas" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
-				<input type="hidden" id="sign_image_dataurl" name="sign_image_dataurl">
-				<a class="btn btn-large btn-primary" id="submitp">Submit</a>
-			</fieldset>
-		</form>
+<div class="row">
+	<form action="@Path['~/Petition']" method="POST" id="formp">
+	<fieldset>
+		<div class="span4">
+			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;이름</label>
+			<input type="text" name="name" placeholder="이름">
+			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;소속</label>
+			<input type="text" name="work_place" placeholder="소속 (혹은 주소)">
+		</div>
+		<div class="span4">
+			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;휴대폰 번호</label>
+			<input type="text" name="phone_no" placeholder="000-0000-0000">
+			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;email 주소</label>
+			<input type="text" name="email" placeholder="id@email.com"><br/>
+			<a class="btn btn-large btn-primary" id="submitp">Submit</a>
+		</div>
+		<div class="span4">
+			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;서명</label>
+			<canvas id="signCanvas" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
+			<a class="btn" id="clearp">X</a>
+			<input type="hidden" id="sign_image_dataurl" name="sign_image_dataurl">
+		</div>
+	</fieldset>
+	</form>
+</div>
+<!--
+<div class="row">
+	<div class="span2">
+		<ul>
+			<li>가천대학교</li>
+			<li>강릉영동대학</li>
+			<li>강릉원주대</li>
+			<li>강원대학교</li>
+			<li>경동대학교</li>
+			<li>경복대학교</li>
+			<li>경북대학교</li>
+			<li>경상대학교</li>
+			<li>계명대학교</li>
+		</ul>
 	</div>
-	<div class="span3">&nbsp;</div>
+	<div class="span2">
+		</ul>
+			<li>고려대학교</li>
+			<li>광주보건대학교</li>
+			<li>국립순천대학교</li>
+			<li>기타간호대</li>
+			<li>남서울대학교</li>
+			<li>단국대학교</li>
+			<li>대동대학교</li>
+			<li>대전대학교</li>
+			<li>동국대학교</li>
+			<li>동남보건대</li>
+		</ul>
+	</div>
+	<div class="span2">
+		<ul>
+			<li>동신대학교</li>
+			<li>동우대학</li>
+			<li>두원공과대학교</li>
+			<li>배제대학교</li>
+			<li>백석대</li>
+			<li>서영대학교</li>
+			<li>서울대학교</li>
+			<li>서울여자간호대</li>
+			<li>선문대학교</li>
+		</ul>
+	</div>
+	<div class="span2">
+		<ul>
+			<li>성균관대</li>
+			<li>성신여자대학교</li>
+			<li>세명대학교</li>
+			<li>세한대학교</li>
+			<li>수원과학대학교</li>
+			<li>순천향대학교</li>
+			<li>아주대학교</li>
+			<li>연세대학교</li>
+			<li>원광보건대학</li>
+			<li>울산대학교</li>
+		</ul>
+	</div>
+	<div class="span2">
+		<ul>
+			<li>을지대학교</li>
+			<li>인하대학교</li>
+			<li>장안대학교</li>
+			<li>적십자간호대학</li>
+			<li>전남대학교</li>
+			<li>조선대학교</li>
+			<li>중부대학교</li>
+			<li>중앙대학교</li>
+			<li>충남대학교</li>
+			<li>충북대학교</li>
+			<li>충청대학교</li>
+		</ul>
+	</div>
+	<div class="span2">
+		<ul>
+			<li>한남대학교</li>
+			<li>한림대학교</li>
+			<li>한양대학교</li>
+			<li>한중대학교</li>
+			<li>혜전대학교</li>
+			<li>호서대학교</li>
+		</ul>
+	</div>
 </div>
+-->
 @EndSection

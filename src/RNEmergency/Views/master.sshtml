@@ -11,7 +11,7 @@
 @Section['Scripts']
 </head>
 <body>
-<div class="container-fluid">
+<div class="container">
   @Section['Content']
 </div>
 </body>
