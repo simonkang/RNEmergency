@@ -23,9 +23,7 @@ rnns.finishInit = function() {
 			rnns.imageObj.src = document.getElementById('sign_image_dataurl').value;
 		} else {
 			rnns.imageObj.src = document.getElementById('sign_image_dataurl').value;
-			var fakeImg = new Image();
-			fakeImg.src = rnns.imageObj.src;
-			fakeImg.onload = rnns.onload;
+			rnns.onload();
 		}
 	}
 };
