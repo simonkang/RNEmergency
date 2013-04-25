@@ -2,15 +2,16 @@
 
 @Section['Scripts']
 <script type="text/javascript">
-window.FlashCanvasOptions = {
-    swfPath: "@Path['~/Scripts/']"
-};
-Modernizr.load({
-	test:Modernizr.canvas,
-	nope:'@Path['~/Scripts/flashcanvas.js']'
-});
 
-var rnns = {}
+var rnns = {};
+rnns.initialized = false;
+rnns.runInit = function(){
+	if (!rnns.initialized) {
+		rnns.initialized = true;
+		rnns.can = document.getElementById('signCanvas');
+		rnns.ctx = rnns.can.getContext('2d');
+	}
+};
 rnns.started = false;
 rnns.ev_cv = function(ev) {
 	if (ev.layerX || ev.layerX == 0) {
@@ -22,11 +23,17 @@ rnns.ev_cv = function(ev) {
 	}
 };
 
-rnns.init = function() {
-	rnns.can = document.getElementById('signCanvas');
-	rnns.ctx = rnns.can.getContext('2d');
+window.FlashCanvasOptions = {
+    swfPath: "@Path['~/Scripts/']"
+};
+Modernizr.load({
+	test:Modernizr.canvas,
+	nope:'@Path['~/Scripts/flashcanvas.js']',
+});
 
+rnns.init = function() {
 	$('#signCanvas').mousedown(function(ev) {
+		rnns.runInit();
 		rnns.ev_cv(ev);
 		rnns.ctx.beginPath();
 		rnns.ctx.moveTo(rnns.x, rnns.y);
@@ -35,6 +42,7 @@ rnns.init = function() {
 
 	$('#signCanvas').mousemove(function(ev) {
 		if (rnns.started) {
+			rnns.runInit();
 			rnns.ev_cv(ev);
 			rnns.ctx.lineTo(rnns.x, rnns.y);
 			rnns.ctx.stroke();
@@ -43,6 +51,7 @@ rnns.init = function() {
 
 	$('#signCanvas').mouseup(function(ev) {
 		if (rnns.started) {
+			rnns.runInit();
 			rnns.ev_cv(ev);
 			rnns.ctx.lineTo(rnns.x, rnns.y);
 			rnns.ctx.stroke();
@@ -57,6 +66,7 @@ rnns.init = function() {
 	});
 
 	$('#submitp').click(function() {
+		rnns.runInit();
 		$('#sign_image_dataurl').val(rnns.can.toDataURL("image/png"));
 		$('#formp').submit();
 	});
