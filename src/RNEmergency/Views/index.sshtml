@@ -28,7 +28,7 @@ window.FlashCanvasOptions = {
 };
 Modernizr.load({
 	test:Modernizr.canvas,
-	nope:'@Path['~/Scripts/flashcanvas.js']',
+	nope:'@Path['~/Scripts/flashcanvas.js']'
 });
 
 rnns.init = function() {
