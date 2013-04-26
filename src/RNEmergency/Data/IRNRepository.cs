@@ -131,8 +131,8 @@ namespace RNEmergency.Data
                     cmd.Parameters.Add(new NpgsqlParameter("daum_id", ""));
                     cmd.Parameters.Add(new NpgsqlParameter("work_place", pr.work_place));
                     cmd.Parameters.Add(new NpgsqlParameter("client_ip", pr.client_ip));
-                    cmd.Parameters.Add(new NpgsqlParameter("sign_image1", pr.sign_image1));
-                    cmd.Parameters.Add(new NpgsqlParameter("sign_image2", pr.sign_image2));
+                    cmd.Parameters.Add(new NpgsqlParameter("sign_image1", pr.sign_image1 ?? ""));
+                    cmd.Parameters.Add(new NpgsqlParameter("sign_image2", pr.sign_image2 ?? ""));
                     cmd.Parameters.Add(new NpgsqlParameter("insert_dt", pr.insert_dt));
                     try
                     {
