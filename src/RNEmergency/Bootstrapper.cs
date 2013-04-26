@@ -37,15 +37,15 @@ namespace RNEmergency
             base.ApplicationStartup(container, pipelines);
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
                 {
-                    if (!ctx.Request.Url.HostName.Equals("localhost", StringComparison.OrdinalIgnoreCase))
-                    {
+                    //if (!ctx.Request.Url.HostName.Equals("localhost", StringComparison.OrdinalIgnoreCase))
+                    //{
                         return new HtmlResponse(HttpStatusCode.OK, stream =>
                             {
                                 var sw = new StreamWriter(stream, System.Text.Encoding.UTF8) { AutoFlush = true };
                                 sw.Write(offlineHtml);
                             });
-                    }
-                    return null;
+                    //}
+                    //return null;
                 });
             pipelines.BeforeRequest.AddItemToEndOfPipeline(ctx =>
                 {
