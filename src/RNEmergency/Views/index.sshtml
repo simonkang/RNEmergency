@@ -22,62 +22,116 @@
 var rnns = {};
 rnns.i1 = false;
 rnns.i2 = false;
-rnns.started = false;
+rnns.can1 = {};
+rnns.can1.started = false;
+rnns.can1.hasdata = false;
+rnns.can2 = {};
+rnns.can2.started = false;
+rnns.can2.hasdata = false;
+
 rnns.ev_cv = function(ev) {
 	if (ev.layerX || ev.layerX == 0) {
-		rnns.x = ev.layerX;
-		rnns.y = ev.layerY;
+		ev._x = ev.layerX;
+		ev._y = ev.layerY;
 	} else if (ev.offsetX || ev.offsetX == 0) {
-		rnns.x = ev.offsetX;
-		rnns.y = ev.offsetY;
+		ev._x = ev.offsetX;
+		ev._y = ev.offsetY;
 	}
 };
 
-rnns.init = function() {
-	$('#signCanvas').mousedown(function(ev) {
+rnns.can_mousedown = function(ev, can) {
+	rnns.ev_cv(ev);
+	can.ctx.beginPath();
+	can.ctx.moveTo(ev._x, ev._y);
+	can.started = true;
+	can.hasdata = true;
+};
+
+rnns.can_mousemove = function(ev, can) {
+	if (can.started) {
 		rnns.ev_cv(ev);
-		rnns.ctx.beginPath();
-		rnns.ctx.moveTo(rnns.x, rnns.y);
-		rnns.started = true;
+		can.ctx.lineTo(ev._x, ev._y);
+		can.ctx.stroke();
+	}
+};
+
+rnns.can_mouseup = function(ev, can) {
+	if (can.started) {
+		rnns.ev_cv(ev);
+		can.ctx.lineTo(ev._x, ev._y);
+		can.ctx.stroke();
+		can.started = false;
+	}
+}
+
+rnns.can_clearp = function(can) {
+	can.ctx.clearRect(0, 0, 300, 100);
+	can.hasdata = false;
+}
+
+rnns.init = function() {
+	$('#signCanvas1').mousedown(function(ev) {
+		rnns.can_mousedown(ev, rnns.can1);
 	});
 
-	$('#signCanvas').mousemove(function(ev) {
-		if (rnns.started) {
-			rnns.ev_cv(ev);
-			rnns.ctx.lineTo(rnns.x, rnns.y);
-			rnns.ctx.stroke();
-		}
+	$('#signCanvas1').mousemove(function(ev) {
+		rnns.can_mousemove(ev, rnns.can1);
 	});
 
-	$('#signCanvas').mouseup(function(ev) {
-		if (rnns.started) {
-			rnns.ev_cv(ev);
-			rnns.ctx.lineTo(rnns.x, rnns.y);
-			rnns.ctx.stroke();
-			rnns.started = false;
-		}
+	$('#signCanvas1').mouseup(function(ev) {
+		rnns.can_mouseup(ev, rnns.can1);
 	});
 
-	$('#clearp').click(function() {
-		rnns.ctx.clearRect(0, 0, 300, 100);
+	$('#clearp1').click(function() {
+		rnns.can_clearp(rnns.can1);
+	});
+
+	$('#signCanvas2').mousedown(function(ev) {
+		rnns.can_mousedown(ev, rnns.can2);
+	});
+
+	$('#signCanvas2').mousemove(function(ev) {
+		rnns.can_mousemove(ev, rnns.can2);
+	});
+
+	$('#signCanvas2').mouseup(function(ev) {
+		rnns.can_mouseup(ev, rnns.can2);
+	});
+
+	$('#clearp2').click(function() {
+		rnns.can_clearp(rnns.can2);
 	});
 
 	$(document).mouseup(function(ev) {
-		if (rnns.started) {
-			rnns.started = false;
+		if (rnns.can1.started) {
+			rnns.can1.started = false;
+		}
+		if (rnns.can2.started) {
+			rnns.can2.started = false;
 		}
 	});
 
 	$('#submitp').click(function() {
-		$('#sign_image_dataurl').val(rnns.can.toDataURL("image/png"));
+		if (rnns.can1.hasdata) {
+			$('#sign_image_dataurl1').val(rnns.can1.can.toDataURL("image/png"));
+		} else {
+			$('#sign_image_dataurl1').val('');
+		}
+		if (rnns.can2.hasdata) {
+			$('#sign_image_dataurl2').val(rnns.can2.can.toDataURL("image/png"));
+		} else {
+			$('#sign_image_dataurl2').val('');
+		}
 		$('#formp').submit();
 	});
 };
 
 rnns.runInit = function(){
 	if (rnns.i1 && rnns.i2) {
-		rnns.can = document.getElementById('signCanvas');
-		rnns.ctx = rnns.can.getContext('2d');
+		rnns.can1.can = document.getElementById('signCanvas1');
+		rnns.can1.ctx = rnns.can1.can.getContext('2d');
+		rnns.can2.can = document.getElementById('signCanvas2');
+		rnns.can2.ctx = rnns.can2.can.getContext('2d');
 		rnns.init();
 	}
 };
@@ -104,31 +158,40 @@ $(document).ready(function() {
 	<p class="lead">간호인력개편안 철회하라!</p>
 	<hr>
 </div>
+<form action="@Path['~/Petition']" method="POST" id="formp">
+<fieldset>
 <div class="row">
-	<form action="@Path['~/Petition']" method="POST" id="formp">
-	<fieldset>
-		<div class="span4">
-			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;이름</label>
-			<input type="text" name="name" placeholder="이름">
-			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;소속</label>
-			<input type="text" name="work_place" placeholder="소속 (혹은 주소)">
-		</div>
-		<div class="span4">
-			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;휴대폰 번호</label>
-			<input type="text" name="phone_no" placeholder="000-0000-0000">
-			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;email 주소</label>
-			<input type="text" name="email" placeholder="id@email.com"><br/>
-			<a class="btn btn-large btn-primary" id="submitp">Submit</a>
-		</div>
-		<div class="span4">
-			<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;서명</label>
-			<canvas id="signCanvas" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
-			<a class="btn" id="clearp">X</a>
-			<input type="hidden" id="sign_image_dataurl" name="sign_image_dataurl">
-		</div>
-	</fieldset>
-	</form>
+	<div class="span4">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;이름</label>
+		<input type="text" name="name" placeholder="이름">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;소속</label>
+		<input type="text" name="work_place" placeholder="소속 (혹은 주소)">
+	</div>
+	<div class="span4">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;휴대폰 번호</label>
+		<input type="text" name="phone_no" placeholder="000-0000-0000">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;email 주소</label>
+		<input type="text" name="email" placeholder="id@email.com"><br/>
+	</div>
+	<div class="span4">
+		<a class="btn btn-large btn-primary" id="submitp">Submit</a>
+	</div>
 </div>
+<div class="row">
+	<div class="span6">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;보건복지부 간호인력 개편안 대한 반대 서명</label>
+		<canvas id="signCanvas1" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
+		<a class="btn" id="clearp1">X</a>
+		<input type="hidden" id="sign_image_dataurl1" name="sign_image_dataurl1">
+	</div>
+	<div class="span6">
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;복지부 간호인력 개편안관련 간호협회에 대한 서명</label>
+		<canvas id="signCanvas2" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
+		<a class="btn" id="clearp2">X</a>
+		<input type="hidden" id="sign_image_dataurl2" name="sign_image_dataurl2">
+	</div>
+</fieldset>
+</form>
 <!--
 <div class="row">
 	<div class="span2">

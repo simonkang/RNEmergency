@@ -50,6 +50,10 @@ namespace RNEmergency.Modules
                     {
                         pr.err_msg = "phone number required";
                     }
+                    else if (string.IsNullOrWhiteSpace(pr.sign_image_dataurl1) && string.IsNullOrWhiteSpace(pr.sign_image_dataurl2))
+                    {
+                        pr.err_msg = "1 서명 required";
+                    }
                     if (string.IsNullOrWhiteSpace(pr.err_msg))
                     {
                         pr.err_msg = repo.InsertPetitionResult(pr);
