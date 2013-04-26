@@ -68,6 +68,7 @@ $(document).ready(function() {
 		<table class="table table-bordered table-hover">
 			<tbody>
 				@If.hasErr;<tr class="error"><td colspan="2"><p class="text-center text-error">@!Model.err_msg</td></tr>@EndIf
+				@IfNot.hasErr;<tr><td colspan="2"><a class="btn btn-large btn-primary" href="http://cafe.daum.net/RNEMERGENCY">카페 홈으로<a></td></tr>@EndIf
 				<tr><th width="400">이름</th><td>@!Model.name</td></tr>
 				<tr><th>소속</th><td>@!Model.work_place</td></tr>
 				<tr><th>휴대폰 번호</th><td>@!Model.phone_no</td></tr>
