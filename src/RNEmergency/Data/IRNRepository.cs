@@ -21,7 +21,6 @@ namespace RNEmergency.Data
 
         public static string GetConnStr()
         {
-            return "";
             try
             {
                 var uriString = ConfigurationManager.AppSettings["ELEPHANTSQL_URL"] ??
@@ -105,7 +104,7 @@ namespace RNEmergency.Data
             {
                 cmd4.ExecuteNonQuery();
             }
-            using (var cmd5 = new NpgsqlCommand("create index rn_results_idx_insert_dt on rn_results (insert_dt)")) { cmd5.ExecuteNonQuery(); }
+            using (var cmd5 = new NpgsqlCommand("create index rn_results_idx_insert_dt on rn_results (insert_dt)", conn)) { cmd5.ExecuteNonQuery(); }
         }
 
         public bool VerifyDatabase()

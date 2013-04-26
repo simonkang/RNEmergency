@@ -178,14 +178,19 @@ $(document).ready(function() {
 	</div>
 </div>
 <div class="row">
+	<div class="span12">
+		<h2>보건복지부 간호인력 개편안</h2>
+	</div>
+</div>
+<div class="row">
 	<div class="span6">
-		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;보건복지부 간호인력 개편안 대한 반대 서명</label>
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;반대 서명</label>
 		<canvas id="signCanvas1" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
 		<a class="btn" id="clearp1">X</a>
 		<input type="hidden" id="sign_image_dataurl1" name="sign_image_dataurl1">
 	</div>
 	<div class="span6">
-		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;복지부 간호인력 개편안관련 간호협회에 대한 서명</label>
+		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;대한간호협회의 입장에 대한 반대 서명</label>
 		<canvas id="signCanvas2" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
 		<a class="btn" id="clearp2">X</a>
 		<input type="hidden" id="sign_image_dataurl2" name="sign_image_dataurl2">
