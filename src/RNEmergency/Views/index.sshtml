@@ -44,7 +44,6 @@ rnns.can_mousedown = function(ev, can) {
 	can.ctx.beginPath();
 	can.ctx.moveTo(ev._x, ev._y);
 	can.started = true;
-	can.hasdata = true;
 };
 
 rnns.can_mousemove = function(ev, can) {
@@ -52,6 +51,7 @@ rnns.can_mousemove = function(ev, can) {
 		rnns.ev_cv(ev);
 		can.ctx.lineTo(ev._x, ev._y);
 		can.ctx.stroke();
+		can.hasdata = true;
 	}
 };
 
