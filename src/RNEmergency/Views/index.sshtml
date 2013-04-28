@@ -43,15 +43,21 @@ rnns.can_mousedown = function(ev, can) {
 	rnns.ev_cv(ev);
 	can.ctx.beginPath();
 	can.ctx.moveTo(ev._x, ev._y);
+	can.origx = ev._x;
+	can.origy = ev._y;
 	can.started = true;
 };
 
 rnns.can_mousemove = function(ev, can) {
 	if (can.started) {
 		rnns.ev_cv(ev);
-		can.ctx.lineTo(ev._x, ev._y);
-		can.ctx.stroke();
-		can.hasdata = true;
+		if (!can.hasdata && (can.origx != ev._x || can.origy != ev._y)) {
+			can.hasdata = true;
+		}
+		if (can.hasdata) {
+			can.ctx.lineTo(ev._x, ev._y);
+			can.ctx.stroke();
+		}
 	}
 };
 
