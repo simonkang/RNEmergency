@@ -118,17 +118,30 @@ rnns.init = function() {
 	});
 
 	$('#submitp').click(function() {
-		if (rnns.can1.hasdata) {
-			$('#sign_image_dataurl1').val(rnns.can1.can.toDataURL("image/png"));
+		var submitForm = true;
+		if ($('input[name=sign_radio1]:checked', '#formp').val() == '1') {
+			if (rnns.can1.hasdata) {
+				$('#sign_image_dataurl1').val(rnns.can1.can.toDataURL("image/png"));
+			} else {
+				submitForm = false;
+				alert('Signature 1 Required');
+			}
 		} else {
 			$('#sign_image_dataurl1').val('');
 		}
-		if (rnns.can2.hasdata) {
-			$('#sign_image_dataurl2').val(rnns.can2.can.toDataURL("image/png"));
+		if ($('input[name=sign_radio2]:checked', '#formp').val() == '1') {
+			if (rnns.can2.hasdata) {
+				$('#sign_image_dataurl2').val(rnns.can2.can.toDataURL("image/png"));
+			} else if (submitForm) {
+				submitForm = false;
+				alert('Signature 2 Required');
+			}
 		} else {
 			$('#sign_image_dataurl2').val('');
 		}
-		$('#formp').submit();
+		if (submitForm) {
+			$('#formp').submit();
+		}
 	});
 };
 
@@ -189,14 +202,31 @@ $(document).ready(function() {
 	</div>
 </div>
 <div class="row">
+	<div class="span6"><label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;반대 서명</label></div>
+	<div class="span6"><label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;대한간호협회의 입장에 대한 반대 서명</label></div>
+</div>
+<div class="row">
+	<div class="span3">
+		<input type="radio" name="sign_radio1" value="1" checked>&nbsp;반대</input>
+	</div>
+	<div class="span3">
+		<input type="radio" name="sign_radio1" value="2">&nbsp;반대하지 않음</input>
+	</div>
+	<div class="span3">
+		<input type="radio" name="sign_radio2" value="1" checked>&nbsp;반대</input>
+	</div>
+	<div class="span3">
+		<input type="radio" name="sign_radio2" value="2">&nbsp;반대하지 않음</input>
+	</div>
+</div>
+<br />
+<div class="row">
 	<div class="span6">
-		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;반대 서명</label>
 		<canvas id="signCanvas1" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
 		<a class="btn" id="clearp1">X</a>
 		<input type="hidden" id="sign_image_dataurl1" name="sign_image_dataurl1">
 	</div>
 	<div class="span6">
-		<label><span class="badge badge-important">(&nbsp;*&nbsp;)</span>&nbsp;대한간호협회의 입장에 대한 반대 서명</label>
 		<canvas id="signCanvas2" height="100" width="300" style="border: 1px solid;">No support for HTML5 Canvas</canvas><br />
 		<a class="btn" id="clearp2">X</a>
 		<input type="hidden" id="sign_image_dataurl2" name="sign_image_dataurl2">

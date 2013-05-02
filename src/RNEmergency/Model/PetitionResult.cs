@@ -102,5 +102,8 @@ namespace RNEmergency.Model
                 return url;
             }
         }
+
+        public int sign_radio1 { get; set; }
+        public int sign_radio2 { get; set; }
     }
 }
